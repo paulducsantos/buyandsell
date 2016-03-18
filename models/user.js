@@ -7,9 +7,9 @@ var userSchema = new Schema({
     unique: true,
   },
   password: String,
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
+  money: Number,
+  collectedItems: [{
+    type: String
   }]
   
 });
