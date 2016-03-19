@@ -98,8 +98,8 @@ user1.save(function(err) {
   var item2 = new Item({
     itemName: 'MewTwo',
     _owner: user1.id,
-    itemDescription: "Best pokemon ever",
-    itemPrice: 9000,
+    itemDescription: "He is Psycic",
+    itemPrice: 4500,
     itemSold: false
   });
   item2.save(function(err) {

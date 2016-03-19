@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 
 </head>
-<body>
+<body ng-controller="BuyOrSellController as BuyOrSell">
 
   <nav class="ruNav">
     <div class="container">
@@ -72,12 +72,57 @@
     </ul>
   </div>
 
-  <div class="container" ng-controller="BuyOrSellController">
+  <div class="row center">
+    <a id="place-button" class="btn-large waves-effect waves-light red darken-4 modal-trigger" href="#modal2">Add Item For Sale</a>
+  </div>
+
+  <div id="modal2" class="modal">
+  <div class="modal-content" id="place-modal">
+    <h4>New Item</h4>
     <div class="row">
-      <div class="col m6 offset-m3">
-        <h1>first entry</h1>
+      <div class="input-field col s6">
+        <input id="itemName" type="text" class="validate" ng-model="itemTxt.name">
+        <label for="itemName">Item Name</label>
       </div>
+      <div class="input-field col s6">
+        <input id="itemDescription" type="text" class="validate" ng-model="itemTxt.description">
+        <label for="itemDescription">Item Description</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="itemPrice" type="text" class="validate" ng-model="itemTxt.price">
+        <label for="itemPrice">Price</label>
+      </div>
+      <a class="waves-effect waves-light btn" ng-click="newItem()">Add Item</a>
     </div>
+  </div>
+</div>
+
+  <div class="container">
+    <div ng-init="getItems()">
+      <section ng-repeat="item in items">
+        <div ng-if="!item.itemSold">
+          <div class="row">
+            <div class="col m6 offset-m3 center">
+              <h3>{{item.itemName}}</h3>
+              <h5>Description: {{item.itemDescription}}</h5>
+              <p>Owner: {{item._owner.username}}</p>
+              <small>Price: {{item.itemPrice | currency}}</small>
+              <a class="waves-effect waves-light btn" ng-click="buyItem(item._id)">BUY NOW!</a>
+              <div class="input-field col s12">
+                <textarea id="comment" class="materialize-textarea" ng-model="commentTxt.addComment"></textarea>
+                <label for="comment">Add a comment</label>
+                <a class="waves-effect waves-light btn" ng-click="addComment(item.itemName)">Add Comment</a>
+              </div>
+              <ul ng-repeat="comment in item.comments">
+                <li>{{comment._owner.username}} says: {{comment.commentMsg}}</li>
+              </ul>
+              <div class="divider"></div>
+            </div>
+          </div>
+        </div>    
+      </section>
+    </div>
+
   </div>
 
 
