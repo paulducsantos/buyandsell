@@ -62,14 +62,24 @@ exports.newItem = function(req, res, next) {
 }
 
 exports.buyItem = function(req, res, next) {
-  console.log(req.body.itemId);
-  Item.update({
+  Item.findOneAndUpdate({
     _id: req.body.itemId
   }, {
     $set: { 'itemSold': true }
   }, function(err, updated) {
     if(err) throw err;
     console.log('updated!');
+    console.log(req.user.id);
+    debugger;
+    User.findOneAndUpdate({
+      _id: req.user.id
+    }, {
+      $push: {
+        'collectedItems': updated._doc.itemName
+      }
+    }, function(err, user) {
+      if(err) throw err;
+    })
     res.json({});
   });
 }

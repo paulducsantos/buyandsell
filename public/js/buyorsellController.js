@@ -2,8 +2,18 @@
 angular.module('buyOrSellApp')
 .controller('BuyOrSellController', function($scope, $http) {
 
+  $scope.forms = {};
+  $scope.login = function() {
+    $http.post('/login', {
+      username: $scope.forms.username,
+      password: $scope.forms.password
+    })
+    .then(function(user) {
+      console.log('here');
+    });
+  }
+
   $scope.getItems = function() {
-    console.log('it happens');
     $http.get('/api/getItems')
     .then(function(response) {
       console.log(response);
@@ -26,7 +36,6 @@ angular.module('buyOrSellApp')
 
   $scope.itemTxt = {};
   $scope.newItem = function() {
-    console.log('here');
     $http.post('/api/newItem', {
       //get fields
       itemName: $scope.itemTxt.name,
@@ -44,7 +53,6 @@ angular.module('buyOrSellApp')
 
 
   $scope.buyItem = function(itemId) {
-    console.log(itemId);
     $http.put('/api/buyItem', {itemId: itemId})
     .then(function() {
       $scope.getItems();

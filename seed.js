@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcryptjs');
 var Schema = mongoose.Schema;
 
 var db = 'mongodb://localhost/buyandsell';
@@ -32,6 +33,27 @@ var userSchema = new Schema({
   
 });
 
+userSchema.pre('save', function(next) {
+    var user = this;
+
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified('password')) return next();
+
+    // generate a salt
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) return next(err);
+
+        // hash the password along with our new salt
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) return next(err);
+
+            // override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
+    });
+});
+
 var commentSchema = new Schema({
   _owner: {
     type: Schema.Types.ObjectId,
@@ -50,7 +72,7 @@ var user1 = new User({
   username: 'paulsantos',
   password: 'password',
   money: 9000,
-  collectedItems: ['Charizard', 'MewTwo']
+  collectedItems: []
 });
 
 user1.save(function(err) {
@@ -76,7 +98,6 @@ user1.save(function(err) {
 
   var item1 = new Item({
     itemName: 'Charizard',
-    _owner: user1.id,
     itemDescription: "Best pokemon ever",
     itemPrice: 9000,
     itemSold: false
@@ -97,7 +118,6 @@ user1.save(function(err) {
   });
   var item2 = new Item({
     itemName: 'MewTwo',
-    _owner: user1.id,
     itemDescription: "He is Psycic",
     itemPrice: 4500,
     itemSold: false
