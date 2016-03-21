@@ -6,6 +6,20 @@ exports.home = function(req, res, next) {
   res.sendFile(process.cwd() + '/public/views/index.html');
 }
 
+exports.getLogin = function(req, res, next) {
+  console.log(req.user.username);
+  console.log(req.user.id);
+
+  User.findOne({
+    username: req.user.username
+  })
+  .select('username money collectedItems')
+  .exec()
+  .then(function(user) {
+    res.json(user);
+  });
+}
+
 exports.getItems = function(req, res, next) {
   Item.find({})
   .populate('_owner', 'username')
@@ -74,6 +88,9 @@ exports.buyItem = function(req, res, next) {
     User.findOneAndUpdate({
       _id: req.user.id
     }, {
+      $set: {
+        money: req.body.userMoney
+      },
       $push: {
         'collectedItems': updated._doc.itemName
       }

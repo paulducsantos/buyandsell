@@ -22,6 +22,8 @@ module.exports.routes = function(app) {
 
   app.get('/api/getItems', controller.getItems);
 
+  app.get('/loginInfo', controller.getLogin);
+
   app.post('/login', 
     passport.authenticate('local', {
       successRedirect: '/',

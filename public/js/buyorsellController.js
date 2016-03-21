@@ -9,7 +9,15 @@ angular.module('buyOrSellApp')
       password: $scope.forms.password
     })
     .then(function(user) {
-      console.log('here');
+      $scope.getLogin();
+    });
+  }
+
+  $scope.getLogin = function() {
+    $http.get('/loginInfo')
+    .then(function(response) {
+      console.log(response.data);
+      $scope.user = response.data;
     });
   }
 
@@ -18,6 +26,7 @@ angular.module('buyOrSellApp')
     .then(function(response) {
       console.log(response);
       $scope.items = response.data;
+      $scope.getLogin();
     });
   }
 
@@ -32,7 +41,6 @@ angular.module('buyOrSellApp')
       $scope.getItems();
     });
   }
-
 
   $scope.itemTxt = {};
   $scope.newItem = function() {
@@ -52,8 +60,9 @@ angular.module('buyOrSellApp')
   }
 
 
-  $scope.buyItem = function(itemId) {
-    $http.put('/api/buyItem', {itemId: itemId})
+  $scope.buyItem = function(itemId, itemPrice) {
+    $scope.user.money = $scope.user.money - itemPrice;
+    $http.put('/api/buyItem', {itemId: itemId, userMoney: $scope.user.money})
     .then(function() {
       $scope.getItems();
     });
