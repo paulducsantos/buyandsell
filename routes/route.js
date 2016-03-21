@@ -24,6 +24,8 @@ module.exports.routes = function(app) {
 
   app.get('/loginInfo', controller.getLogin);
 
+  app.get('/logout', controller.logout);
+
   app.post('/login', 
     passport.authenticate('local', {
       successRedirect: '/',
@@ -37,8 +39,10 @@ module.exports.routes = function(app) {
 
   app.put('/api/buyItem', controller.buyItem);
 
-  //passport
 
+
+
+  //passport
   passport.serializeUser(function(user, done) {
     done(null, user);
   });

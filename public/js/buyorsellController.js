@@ -13,6 +13,13 @@ angular.module('buyOrSellApp')
     });
   }
 
+  $scope.logout = function() {
+    $http.get('/logout')
+    .then(function(response) {
+      $scope.user = null;
+    });
+  }
+
   $scope.getLogin = function() {
     $http.get('/loginInfo')
     .then(function(response) {

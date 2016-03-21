@@ -18,7 +18,8 @@
       <div class="nav-wrapper row">
         <a href="/" class="brand-logo">Buy OR Sell</a>
         <ul class="right hide-on-med-and-down">
-          <li><a id="login" href="#">Login</a></li>
+          <li ng-show="!user"><a id="login" href="#">Login</a></li>
+          <li ng-show="user"><a id="login" href="#" ng-click="logout()">Logout</a></li>
         </ul>
       </div>
     </div>

@@ -20,6 +20,12 @@ exports.getLogin = function(req, res, next) {
   });
 }
 
+exports.logout = function(req, res, next) {
+  req.session.destroy(function (err) {
+    res.redirect('/');
+  });
+}
+
 exports.getItems = function(req, res, next) {
   Item.find({})
   .populate('_owner', 'username')
