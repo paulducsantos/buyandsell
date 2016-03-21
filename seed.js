@@ -97,6 +97,7 @@ user1.save(function(err) {
   });
 
   var item1 = new Item({
+    _owner: user1.id,
     itemName: 'Charizard',
     itemDescription: "Best pokemon ever",
     itemPrice: 9000,
@@ -117,6 +118,7 @@ user1.save(function(err) {
     });
   });
   var item2 = new Item({
+    _owner: user1.id,
     itemName: 'MewTwo',
     itemDescription: "He is Psycic",
     itemPrice: 4500,

@@ -72,7 +72,7 @@ exports.newItem = function(req, res, next) {
     itemName: itemName,
     itemDescription: itemDescription,
     itemPrice: itemPrice,
-    // _owner: ''
+    _owner: req.user.id
   });
 
   item.save(function(err) {
@@ -85,6 +85,7 @@ exports.buyItem = function(req, res, next) {
   Item.findOneAndUpdate({
     _id: req.body.itemId
   }, {
+    _owner: req.user.id,
     $set: { 'itemSold': true }
   }, function(err, updated) {
     if(err) throw err;
