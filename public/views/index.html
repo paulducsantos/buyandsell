@@ -98,7 +98,7 @@
               <h5>Description: {{item.itemDescription}}</h5>
               <p>Owner: {{item._owner.username}}</p>
               <small>Price: {{item.itemPrice | currency}}</small>
-              <a class="waves-effect waves-light btn" ng-click="buyItem(item._id, item.itemPrice)">BUY NOW!</a>
+              <a class="waves-effect waves-light btn" ng-click="buyItem(item._id, item.itemPrice)" ng-if="user">BUY NOW!</a>
               <div class="input-field col s12" ng-if="user">
                 <textarea id="comment" class="materialize-textarea" ng-model="commentTxt.addComment"></textarea>
                 <label for="comment">Add a comment</label>
